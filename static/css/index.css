@@ -793,11 +793,11 @@ a:focus {
 .abstract-video-wrapper {
   /* 定义布局比例：左侧列表30%，右侧视频70% */
   display: flex;
-  gap: 2rem;
+  gap: 2.5rem;
   align-items: flex-start;
   margin-top: 2rem;
   background: var(--background-secondary); /* 增加底色背景 */
-  padding: 1.5rem;
+  padding: 2rem;
   border-radius: var(--border-radius-lg);
   border: 1px solid var(--border-color);
 }
@@ -806,11 +806,11 @@ a:focus {
 .preview-column {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
   /* 固定宽度，不再依赖flex-basis，防止挤压 */
-  width: 260px; 
+  width: 360px; 
   flex-shrink: 0;
-  max-height: 500px;
+  max-height: 700px;
   overflow-y: auto; /*如果列表太长可以滚动*/
   padding-right: 0.5rem; /* 给滚动条留点空间 */
 }
@@ -831,10 +831,10 @@ a:focus {
 .preview-item {
   display: flex;
   align-items: center; /* 垂直居中 */
-  gap: 1rem;
+  gap: 1.25rem;
   border: 1px solid transparent; /* 默认无边框 */
   border-radius: var(--border-radius);
-  padding: 0.75rem;
+  padding: 1rem;
   background: transparent; /* 默认透明 */
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -872,10 +872,10 @@ a:focus {
 
 /* --- 缩略图样式 --- */
 .preview-video {
-  width: 80px; /* 固定缩略图宽度 */
-  height: 54px; /* 固定缩略图高度 (16:9 approx) */
+  width: 140px; /* 固定缩略图宽度 */
+  height: 94px; /* 固定缩略图高度 (16:9 approx) */
   flex-shrink: 0;
-  border-radius: 6px;
+  border-radius: 8px;
   overflow: hidden;
   position: relative;
   background: #000;
@@ -897,10 +897,10 @@ a:focus {
 
 /* --- 文本标签样式 --- */
 .preview-label {
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-secondary);
-  line-height: 1.2;
+  line-height: 1.3;
   transition: color 0.2s;
 }
 
@@ -913,10 +913,10 @@ a:focus {
 .preview-item.is-active .preview-label::after {
   content: 'Now Playing';
   display: block;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: var(--primary-color);
   opacity: 0.7;
-  margin-top: 4px;
+  margin-top: 6px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -957,12 +957,12 @@ a:focus {
 }
 
 .main-video-caption {
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: var(--text-primary);
   text-align: center; /* 标题居中 */
-  margin-top: 0.5rem;
-  padding: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
   background: white;
   border-radius: var(--border-radius);
   border: 1px solid var(--border-color);
@@ -987,17 +987,17 @@ a:focus {
   }
   
   .preview-item {
-    min-width: 160px; /* 卡片最小宽度 */
+    min-width: 200px; /* 卡片最小宽度 */
     flex-direction: column; /* 图在上字在下 */
     align-items: center;
     text-align: center;
-    padding: 0.5rem;
-    gap: 0.5rem;
+    padding: 0.75rem;
+    gap: 0.75rem;
   }
   
   .preview-video {
     width: 100%;
-    height: 90px;
+    height: 120px;
   }
   
   .preview-item.is-active::before {
