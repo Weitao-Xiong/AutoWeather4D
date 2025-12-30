@@ -858,7 +858,6 @@ a:focus {
   max-height: 500px;
   overflow-y: auto; /*如果列表太长可以滚动*/
   padding-right: 0.5rem; /* 给滚动条留点空间 */
-  background: transparent; /* 确保背景透明，融入新的浅灰底色 */
 }
 
 /* 自定义滚动条样式 */
@@ -1074,75 +1073,6 @@ a:focus {
   
   .preview-item.is-active .preview-label::after {
     display: none; /* 空间不够，隐藏Now Playing */
-  }
-}
-
-
-/* ========================
-   Magazine-Style Abstract (Updated for Unity)
-   ======================== */
-
-/* 1. 背景纹理保持不变 */
-.section.hero.is-light {
-  background-color: #f8fafc !important;
-  background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-  background-size: 30px 30px;
-  padding: 4rem 1.5rem;
-}
-
-/* 2. 【关键修改】将卡片样式应用到整个容器，而不是单独的文字列 */
-.section.hero.is-light .container.is-max-desktop {
-  background: #ffffff;
-  padding: 3rem;       /* 大内边距 */
-  border-radius: 24px; /* 更大的圆角 */
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08), 
-              0 0 0 1px rgba(0,0,0,0.03);
-  position: relative;
-  /* 确保这个容器内的内容居中 */
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* 装饰引号移到大卡片左上角 */
-.section.hero.is-light .container.is-max-desktop::before {
-  content: '"';
-  position: absolute;
-  top: -10px;
-  left: 30px;
-  font-size: 8rem;
-  line-height: 1;
-  color: var(--primary-color);
-  opacity: 0.1;
-  font-family: serif;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* 3. 文字排版优化 (保持不变) */
-.content.has-text-justified {
-  font-size: 1.15rem !important;
-  line-height: 2 !important;
-  color: #334155;
-  margin-bottom: 2rem !important; /* 给下方视频留出空间 */
-  position: relative;
-  z-index: 1;
-}
-
-/* 首字下沉 (保持不变) */
-.content.has-text-justified p:first-of-type::first-letter {
-  font-size: 4rem;
-  float: left;
-  line-height: 0.8;
-  margin-right: 16px;
-  margin-top: 8px;
-  font-weight: 800;
-  color: var(--primary-color);
-}
-
-/* 移动端适配 */
-@media screen and (max-width: 768px) {
-  .section.hero.is-light .container.is-max-desktop {
-    padding: 1.5rem;
   }
 }
 
