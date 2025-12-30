@@ -832,19 +832,16 @@ a:focus {
    Modern Abstract Video Gallery
    ========================================= */
 .abstract-video-wrapper {
+  /* 定义布局比例：左侧列表更小，右侧视频更大 */
   display: flex;
   gap: 2rem;
   align-items: flex-start;
-  margin-top: 3rem; /* 增加与上方文字的距离 */
-  
-  /* 【关键修改】改为嵌入式风格 */
-  background: #f1f5f9; /* 非常淡的灰背景，区分于白卡片 */
+  margin-top: 2rem;
+  background: var(--background-secondary); /* 增加底色背景 */
   padding: 1.5rem;
-  border-radius: 16px; /* 圆角稍微小一点，形成嵌套感 */
-  border: 1px solid transparent; /* 移除明显边框 */
-  
-  /* 确保宽度适配 */
-  width: 100%;
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-color);
+  max-width: 100%; /* 确保充分利用可用空间 */
 }
 
 /* --- 左侧：预览列表 (Playlist Column) --- */
