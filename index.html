@@ -446,7 +446,10 @@
 
       <div class="main-video-column" role="tabpanel">
         <div class="main-video-container">
-          <video id="abstractMainVideo" class="main-video" src="static/videos/002.mp4" autoplay muted loop playsinline preload="auto"></video>
+          <video id="video-layer-1" class="main-video active-layer" src="static/videos/002.mp4" autoplay muted loop playsinline></video>
+          <video id="video-layer-2" class="main-video hidden-layer" src="" muted loop playsinline></video>
+          
+          <div class="video-loader"></div>
         </div>
         <p id="abstractVideoCaption" class="main-video-caption">Input (Original)</p>
       </div>
