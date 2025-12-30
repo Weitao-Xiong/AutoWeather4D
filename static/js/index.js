@@ -99,9 +99,8 @@ function getPreviewItems() {
     return Array.from(document.querySelectorAll('.preview-column .preview-item'));
 }
 
-// 双缓冲视频切换逻辑
+// 修复后的双缓冲切换逻辑 (更稳健)
 function updateMainAbstractVideoFromItem(item) {
-    // 获取两个视频层
     const layer1 = document.getElementById('video-layer-1');
     const layer2 = document.getElementById('video-layer-2');
     const caption = document.getElementById('abstractVideoCaption');
@@ -113,56 +112,63 @@ function updateMainAbstractVideoFromItem(item) {
 
     if (!newSrc) return;
 
-    // 1. 确定谁是当前显示的 (active)，谁是后台的 (hidden)
-    let activeVideo, nextVideo;
-    if (layer1.classList.contains('active-layer')) {
-        activeVideo = layer1;
-        nextVideo = layer2;
-    } else {
-        activeVideo = layer2;
-        nextVideo = layer1;
-    }
+    // 1. 稳健地判断当前显示的是哪一层
+    // 如果 layer1 有 active 类，那它就是当前层；否则认为 layer2 是当前层
+    let activeVideo = layer1.classList.contains('active-layer') ? layer1 : layer2;
+    let nextVideo = activeVideo === layer1 ? layer2 : layer1;
 
-    // 如果点的就是当前视频，啥也不做
-    // 注意：这里比较的是 src 的相对/绝对路径，可能需要处理一下，或者简单比较文件名
-    if (activeVideo.getAttribute('src').includes(newSrc)) {
+    // 2. 如果点击的是当前正在播放的视频，直接忽略，防止闪烁
+    if (activeVideo.getAttribute('src') && activeVideo.src.includes(newSrc)) {
         return;
     }
 
-    // 2. 更新标题 (可以立即更新，或者等视频切过去再更新，这里选择立即更新)
+    // 更新标题
     if (caption) caption.textContent = newLabel;
 
-    // 3. 在后台层加载新视频
+    // 3. 准备下一层视频
     nextVideo.src = newSrc;
-    nextVideo.load();
+    nextVideo.load(); // 强制重新加载
 
-    // 4. 监听 'loadeddata' 事件，等视频准备好了再切换
-    // 定义一个一次性处理函数
-    const handleReadyToSwitch = () => {
-        // 只有当新视频真的可以播放时
-        nextVideo.play().then(() => {
-            // A. 让后台视频浮现
-            nextVideo.classList.remove('hidden-layer');
-            nextVideo.classList.add('active-layer');
-
-            // B. 让前台视频隐退
-            activeVideo.classList.remove('active-layer');
-            activeVideo.classList.add('hidden-layer');
-
-            // C. 隐退的视频暂停，节省资源 (延迟一点点，等转场动画结束)
-            setTimeout(() => {
-                activeVideo.pause();
-                activeVideo.currentTime = 0; // 重置进度
-            }, 600); // 这个时间要和 CSS 里的 transition 时间一致
-
-        }).catch(err => console.error("Video play failed:", err));
-
-        // 清理监听器
-        nextVideo.removeEventListener('loadeddata', handleReadyToSwitch);
+    // 定义切换动作：交换 active/hidden 类
+    const performSwitch = () => {
+        nextVideo.classList.add('active-layer');
+        nextVideo.classList.remove('hidden-layer');
+        
+        activeVideo.classList.remove('active-layer');
+        activeVideo.classList.add('hidden-layer');
+        
+        // 延迟暂停旧视频，给 CSS 过渡留出时间 (0.6s)
+        setTimeout(() => {
+            activeVideo.pause();
+            activeVideo.currentTime = 0;
+        }, 600);
     };
 
-    // 绑定监听
-    nextVideo.addEventListener('loadeddata', handleReadyToSwitch);
+    // 4. 使用 onloadeddata 属性 (而不是 addEventListener)
+    // 这样每次赋值都会覆盖上一次的监听，防止快速点击时事件堆积
+    nextVideo.onloadeddata = () => {
+        // 尝试播放
+        const playPromise = nextVideo.play();
+
+        if (playPromise !== undefined) {
+            playPromise
+                .then(() => {
+                    // 播放成功，执行切换
+                    performSwitch();
+                })
+                .catch(error => {
+                    console.warn("Auto-play prevented, switching anyway:", error);
+                    // 【关键修复】即使播放失败(如浏览器限制)，也要强制切换画面，否则会卡死
+                    performSwitch();
+                });
+        } else {
+            // 旧浏览器兼容
+            performSwitch();
+        }
+        
+        // 清理事件，防止后续重复触发
+        nextVideo.onloadeddata = null;
+    };
 }
 
 function highlightPreviewItemByIndex(index) {
