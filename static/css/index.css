@@ -1074,4 +1074,76 @@ a:focus {
 }
 
 
+/* ========================
+   Magazine-Style Abstract
+   ======================== */
+
+/* 1. 给背景增加极其微弱的点阵纹理，增加细节感 */
+.section.hero.is-light {
+  background-color: #f8fafc !important; /* 极淡的蓝灰色 */
+  background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+  background-size: 30px 30px; /* 点阵间距 */
+  padding: 4rem 1.5rem;
+}
+
+/* 2. 将文字容器变成"白色悬浮卡片" */
+.section.hero.is-light .container.is-max-desktop .column.is-four-fifths {
+  background: #ffffff;
+  padding: 3.5rem; /* 增加内边距，留白更多 */
+  border-radius: 20px; /* 大圆角 */
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08), 
+              0 0 0 1px rgba(0,0,0,0.03); /* 柔和的高级阴影 */
+  position: relative;
+}
+
+/* 3. 装饰：左上角的双引号图标 */
+.section.hero.is-light .container.is-max-desktop .column.is-four-fifths::before {
+  content: '"';
+  position: absolute;
+  top: -20px;
+  left: 30px;
+  font-size: 8rem;
+  line-height: 1;
+  color: var(--primary-color);
+  opacity: 0.15; /* 很淡的水印效果 */
+  font-family: serif;
+  pointer-events: none;
+}
+
+/* 4. 字体排版升级 */
+.content.has-text-justified {
+  font-size: 1.15rem !important; /* 稍微调大字号 */
+  line-height: 2 !important;      /* 2倍行高，阅读极其舒适 */
+  color: #334155;                 /* 深灰蓝色，比纯黑更有质感 */
+  font-weight: 400;
+  text-align: justify;            /* 两端对齐 */
+  hyphens: auto;                  /* 英文自动连字符 */
+}
+
+/* 5. 首字下沉 (Drop Cap) - 学术/杂志经典风格 */
+.content.has-text-justified p:first-of-type::first-letter {
+  font-size: 4rem;
+  float: left;
+  line-height: 0.8;
+  margin-right: 16px;
+  margin-top: 8px;
+  font-weight: 800;
+  color: var(--primary-color); /* 继承你的主题蓝色 */
+  text-shadow: 2px 2px 0px rgba(37, 99, 235, 0.1);
+}
+
+/* 移动端适配：手机上不要留那么多白边 */
+@media screen and (max-width: 768px) {
+  .section.hero.is-light .container.is-max-desktop .column.is-four-fifths {
+    padding: 2rem 1.5rem;
+  }
+  .section.hero.is-light .container.is-max-desktop .column.is-four-fifths::before {
+    display: none; /* 手机上隐藏装饰引号 */
+  }
+  .content.has-text-justified p:first-of-type::first-letter {
+    font-size: 3rem; /* 手机上首字小一点 */
+  }
+}
+
+
 
