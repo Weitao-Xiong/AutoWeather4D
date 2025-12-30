@@ -1094,6 +1094,8 @@ a:focus {
   box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08), 
               0 0 0 1px rgba(0,0,0,0.03); /* 柔和的高级阴影 */
   position: relative;
+  max-width: 95% !important; /* 增加卡片宽度到95% */
+  margin: 0 auto; /* 居中 */
 }
 
 /* 3. 装饰：左上角的双引号图标 */
