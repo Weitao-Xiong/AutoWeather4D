@@ -791,26 +791,27 @@ a:focus {
    Modern Abstract Video Gallery
    ========================================= */
 .abstract-video-wrapper {
-  /* 定义布局比例：左侧列表30%，右侧视频70% */
+  /* 定义布局比例：左侧列表更小，右侧视频更大 */
   display: flex;
-  gap: 2.5rem;
+  gap: 2rem;
   align-items: flex-start;
   margin-top: 2rem;
   background: var(--background-secondary); /* 增加底色背景 */
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: var(--border-radius-lg);
   border: 1px solid var(--border-color);
+  max-width: 100%; /* 确保充分利用可用空间 */
 }
 
 /* --- 左侧：预览列表 (Playlist Column) --- */
 .preview-column {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
   /* 固定宽度，不再依赖flex-basis，防止挤压 */
-  width: 360px; 
+  width: 220px; /* 减小宽度，给主视频更多空间 */
   flex-shrink: 0;
-  max-height: 700px;
+  max-height: 500px;
   overflow-y: auto; /*如果列表太长可以滚动*/
   padding-right: 0.5rem; /* 给滚动条留点空间 */
 }
@@ -831,10 +832,10 @@ a:focus {
 .preview-item {
   display: flex;
   align-items: center; /* 垂直居中 */
-  gap: 1.25rem;
+  gap: 1rem;
   border: 1px solid transparent; /* 默认无边框 */
   border-radius: var(--border-radius);
-  padding: 1rem;
+  padding: 0.75rem;
   background: transparent; /* 默认透明 */
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -872,10 +873,10 @@ a:focus {
 
 /* --- 缩略图样式 --- */
 .preview-video {
-  width: 140px; /* 固定缩略图宽度 */
-  height: 94px; /* 固定缩略图高度 (16:9 approx) */
+  width: 80px; /* 固定缩略图宽度 */
+  height: 54px; /* 固定缩略图高度 (16:9 approx) */
   flex-shrink: 0;
-  border-radius: 8px;
+  border-radius: 6px;
   overflow: hidden;
   position: relative;
   background: #000;
@@ -897,10 +898,10 @@ a:focus {
 
 /* --- 文本标签样式 --- */
 .preview-label {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--text-secondary);
-  line-height: 1.3;
+  line-height: 1.2;
   transition: color 0.2s;
 }
 
@@ -913,10 +914,10 @@ a:focus {
 .preview-item.is-active .preview-label::after {
   content: 'Now Playing';
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: var(--primary-color);
   opacity: 0.7;
-  margin-top: 6px;
+  margin-top: 4px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -957,12 +958,12 @@ a:focus {
 }
 
 .main-video-caption {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-primary);
   text-align: center; /* 标题居中 */
-  margin-top: 0.75rem;
-  padding: 0.75rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
   background: white;
   border-radius: var(--border-radius);
   border: 1px solid var(--border-color);
@@ -987,17 +988,17 @@ a:focus {
   }
   
   .preview-item {
-    min-width: 200px; /* 卡片最小宽度 */
+    min-width: 160px; /* 卡片最小宽度 */
     flex-direction: column; /* 图在上字在下 */
     align-items: center;
     text-align: center;
-    padding: 0.75rem;
-    gap: 0.75rem;
+    padding: 0.5rem;
+    gap: 0.5rem;
   }
   
   .preview-video {
     width: 100%;
-    height: 120px;
+    height: 90px;
   }
   
   .preview-item.is-active::before {
