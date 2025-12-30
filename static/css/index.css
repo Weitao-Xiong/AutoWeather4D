@@ -922,6 +922,23 @@ a:focus {
   letter-spacing: 0.5px;
 }
 
+/* 图标样式优化 */
+.preview-label i {
+  display: inline-block;
+  width: 24px;       /* 固定宽度，确保文字左对齐整齐 */
+  text-align: center;
+  margin-right: 4px; /* 图标和文字的间距 */
+  opacity: 0.7;      /* 默认稍微淡一点，不抢文字风头 */
+  transition: all 0.2s;
+}
+
+/* 选中状态下图标更明显 */
+.preview-item.is-active .preview-label i,
+.preview-item:hover .preview-label i {
+  opacity: 1;
+  transform: scale(1.1); /* 选中时图标微微放大 */
+}
+
 /* --- 右侧：主视频区域 --- */
 .main-video-column {
   flex: 1; /* 占据剩余空间 */
