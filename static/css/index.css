@@ -390,6 +390,11 @@ body {
   box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3); /* 增加发光感 */
 }
 
+/* 移除特定标题的下划线 */
+.title.is-3.no-underline::after {
+  display: none;
+}
+
 /* Content Improvements */
 .content.has-text-justified {
   font-size: 1.1rem;
@@ -1178,16 +1183,32 @@ a:focus {
   font-size: 1rem !important;
 }
 
-/* 方法名链接样式 */
+/* 方法名链接样式 - 与作者链接相同的特效 */
 .comparison-table td.method-name a {
   color: #0f172a !important;
   text-decoration: none;
-  transition: color 0.2s;
+  font-weight: 600;
+  transition: var(--transition);
+  position: relative;
+}
+
+.comparison-table td.method-name a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background: var(--gradient-accent);
+  transition: var(--transition);
+}
+
+.comparison-table td.method-name a:hover::after {
+  width: 100%;
 }
 
 .comparison-table td.method-name a:hover {
   color: var(--primary-color) !important;
-  text-decoration: underline;
 }
 
 /* --- 斑马纹：隔行变色 --- */
@@ -1245,12 +1266,6 @@ a:focus {
   padding: 0 1rem;
   line-height: 1.6;
   border-left: 3px solid #cbd5e1; /* 左侧装饰线 */
-}
-
-/* Acknowledgments 部分链接样式 - 移除下划线 */
-.acknowledgments-section .content a {
-  text-decoration: none !important;
-  color: inherit;
 }
 
 
