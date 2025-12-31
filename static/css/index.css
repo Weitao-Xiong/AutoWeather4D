@@ -1114,5 +1114,83 @@ a:focus {
   }
 }
 
+/* ========================
+   Comparison Table Styles
+   ======================== */
+.table-container-custom {
+  overflow-x: auto; /* 允许小屏幕横向滚动 */
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--border-color);
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+}
+
+/* 表头样式 */
+.comparison-table thead th {
+  background-color: #f8fafc;
+  color: var(--text-primary);
+  font-weight: 700;
+  text-align: center;
+  padding: 1rem 0.5rem;
+  border-bottom: 2px solid var(--border-color);
+  vertical-align: bottom; /* 文字底部对齐 */
+  line-height: 1.2;
+}
+
+/* 第一列（方法名）靠左对齐 */
+.comparison-table th.method-col,
+.comparison-table td.method-name {
+  text-align: left;
+  padding-left: 1.5rem;
+  min-width: 160px; /* 防止方法名换行太难看 */
+}
+
+/* 单元格通用样式 */
+.comparison-table td {
+  padding: 0.8rem 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+  color: var(--text-secondary);
+}
+
+/* 图标颜色 */
+.icon-check {
+  color: #10b981; /* 翠绿色 */
+  font-size: 1.1rem;
+}
+
+.icon-cross {
+  color: #ef4444; /* 红色 */
+  opacity: 0.3;   /* 降低透明度，让原本的X不那么刺眼，突出Check */
+  font-size: 1rem;
+}
+
+/* --- 高亮 "Ours" 这一行 --- */
+.comparison-table tr.ours-row {
+  background-color: rgba(37, 99, 235, 0.06) !important; /* 你的主题蓝色的极淡版本 */
+  border-top: 1px solid rgba(37, 99, 235, 0.2);
+  border-bottom: 1px solid rgba(37, 99, 235, 0.2);
+}
+
+.comparison-table tr.ours-row td {
+  color: var(--primary-color);
+  font-weight: 600;
+  border-bottom: none;
+}
+
+/* 鼠标悬停效果 */
+.comparison-table tbody tr:hover:not(.ours-row) {
+  background-color: #f8fafc;
+}
+
 
 
