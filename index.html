@@ -489,7 +489,7 @@
           <img src="static/images/pipeline.jpg" alt="AutoWeather4D Pipeline" style="width: 100%; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-lg);">
         </div>
         <div class="pipeline-caption" style="margin-top: 1.5rem; max-width: 1440px; margin-left: auto; margin-right: auto; padding: 0 1rem;">
-          <p style="font-size: 0.95rem; line-height: 1.7; color: var(--text-secondary); text-align: justify;">
+          <p>
             <strong>Overview of our framework.</strong> Our framework enables physically-based video editing for multi-weather and time-of-day synthesis from an input video. We first extract G-buffers from the input video: depth is derived from point clouds via feed-forward 4D reconstruction, while other G-buffers (Normal, Metallic, Albedo, Roughness) are obtained through an Inverse Renderer. The core editing lies in the G-Buffer Dual-pass Editing mechanism: (1) <strong>Geometry Pass Editing</strong> modifies albedo, normal, and roughness to add weather-related elements (e.g., snow, rain, wet ground) following physical laws; (2) <strong>Light Pass Editing</strong> adjusts local illuminants (by detected local light sources) and environmental lighting (e.g., dawn, noon, blue hours) to align with time-of-day and weather-induced light changes. Finally, the outputs are fed into VideoRefiner (VidRefiner) to enhance the video's diversity and visual appeal, ensuring photorealistic and physically consistent results.
           </p>
         </div>

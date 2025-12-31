@@ -1084,5 +1084,35 @@ a:focus {
   }
 }
 
+/* Pipeline Caption Styling */
+.pipeline-caption {
+  font-family: 'Inter', sans-serif;
+}
+
+.pipeline-caption p {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  text-align: justify;
+  margin: 0;
+  padding: 1rem 1.5rem;
+  background: var(--background-secondary);
+  border-radius: var(--border-radius);
+  border-left: 4px solid var(--primary-color);
+}
+
+.pipeline-caption strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+@media screen and (max-width: 768px) {
+  .pipeline-caption p {
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+    line-height: 1.6;
+  }
+}
+
 
 
