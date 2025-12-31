@@ -1247,5 +1247,11 @@ a:focus {
   border-left: 3px solid #cbd5e1; /* 左侧装饰线 */
 }
 
+/* Acknowledgments 部分链接样式 - 移除下划线 */
+.acknowledgments-section .content a {
+  text-decoration: none !important;
+  color: inherit;
+}
+
 
 
