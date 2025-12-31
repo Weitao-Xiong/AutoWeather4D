@@ -1098,7 +1098,6 @@ a:focus {
   padding: 1rem 1.5rem;
   background: var(--background-secondary);
   border-radius: var(--border-radius);
-  border-left: 4px solid var(--primary-color);
 }
 
 .pipeline-caption strong {
