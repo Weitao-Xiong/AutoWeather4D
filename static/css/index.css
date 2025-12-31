@@ -1179,6 +1179,18 @@ a:focus {
   font-size: 1rem !important;
 }
 
+/* 方法名链接样式 */
+.comparison-table td.method-name a {
+  color: #0f172a !important;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.comparison-table td.method-name a:hover {
+  color: var(--primary-color) !important;
+  text-decoration: underline;
+}
+
 /* --- 斑马纹：隔行变色 --- */
 /* 让偶数行变成极淡的灰色，区分行与行 */
 .comparison-table tbody tr:nth-child(even) {
