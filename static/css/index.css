@@ -376,6 +376,13 @@ body {
   padding-bottom: 10px;
 }
 
+/* 确保带 has-text-centered 的标题真正居中 */
+.title.is-3.has-text-centered {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
 /* 移除旧的 after，重写 */
 .title.is-3::after {
   content: '';
