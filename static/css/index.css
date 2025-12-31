@@ -395,6 +395,11 @@ body {
   display: none;
 }
 
+/* Acknowledgments 标题减少底部间距 */
+.title.is-3.no-underline {
+  margin-bottom: 1rem !important;
+}
+
 /* Content Improvements */
 .content.has-text-justified {
   font-size: 1.1rem;
