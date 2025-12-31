@@ -1137,15 +1137,15 @@ a:focus {
 
 /* --- 表头设计：深色背景，白字，高对比度 --- */
 .comparison-table thead th {
-  background-color: #1e293b; /* 深蓝灰色背景 */
-  color: #ffffff;            /* 白色文字 */
-  font-weight: 600;
-  text-align: center;
-  padding: 1.2rem 0.8rem;    /* 增加高度，不挤 */
-  letter-spacing: 0.02em;    /* 字间距微调 */
-  border-bottom: 3px solid var(--primary-color); /* 底部加一条亮线 */
-  line-height: 1.4;
-  vertical-align: middle;
+  background-color: #1e293b !important; /* 深蓝灰色背景 */
+  color: #ffffff !important;            /* 白色文字 */
+  font-weight: 600 !important;
+  text-align: center !important;
+  padding: 1.2rem 0.8rem !important;    /* 增加高度，不挤 */
+  letter-spacing: 0.02em !important;    /* 字间距微调 */
+  border-bottom: 3px solid var(--primary-color) !important; /* 底部加一条亮线 */
+  line-height: 1.4 !important;
+  vertical-align: middle !important;
 }
 
 /* 第一列（Method）表头特殊处理 */
@@ -1162,27 +1162,27 @@ a:focus {
 
 /* --- 内容行设计 --- */
 .comparison-table td {
-  padding: 1rem 0.8rem; /* 这里的 padding 决定了行高，大一点才舒服 */
-  text-align: center;
-  border-bottom: 1px solid #e2e8f0;
-  vertical-align: middle;
-  color: #64748b; /* 普通图标/文字用灰色，不抢眼 */
+  padding: 1rem 0.8rem !important; /* 这里的 padding 决定了行高，大一点才舒服 */
+  text-align: center !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  vertical-align: middle !important;
+  color: #64748b !important; /* 普通图标/文字用灰色，不抢眼 */
   transition: background-color 0.2s;
 }
 
 /* 第一列（方法名）：加粗，深色 */
 .comparison-table td.method-name {
-  text-align: left;
-  padding-left: 2rem;
-  font-weight: 700;
-  color: #0f172a; /* 深黑色，突出方法名 */
-  font-size: 1rem;
+  text-align: left !important;
+  padding-left: 2rem !important;
+  font-weight: 700 !important;
+  color: #0f172a !important; /* 深黑色，突出方法名 */
+  font-size: 1rem !important;
 }
 
 /* --- 斑马纹：隔行变色 --- */
 /* 让偶数行变成极淡的灰色，区分行与行 */
 .comparison-table tbody tr:nth-child(even) {
-  background-color: #f8fafc;
+  background-color: #f8fafc !important;
 }
 
 /* Hover 效果：鼠标划过变亮 */
@@ -1218,13 +1218,13 @@ a:focus {
 
 /* 图标基础样式 */
 .icon-check {
-  color: #10b981; /* 绿色 */
-  font-size: 1.2rem;
+  color: #10b981 !important; /* 绿色 */
+  font-size: 1.2rem !important;
 }
 
 .icon-cross {
-  color: #cbd5e1; /* 浅灰色叉号，极大降低视觉干扰 */
-  font-size: 1rem;
+  color: #cbd5e1 !important; /* 浅灰色叉号，极大降低视觉干扰 */
+  font-size: 1rem !important;
 }
 
 /* 备注文字样式 */
