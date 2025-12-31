@@ -1115,81 +1115,125 @@ a:focus {
 }
 
 /* ========================
-   Comparison Table Styles
+   Pro Comparison Table (High Contrast)
    ======================== */
 .table-container-custom {
-  overflow-x: auto; /* 允许小屏幕横向滚动 */
-  margin-bottom: 1rem;
+  overflow-x: auto;
+  margin-bottom: 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  /* 给整个表格加一个漂亮的投影，增加立体感 */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   border: 1px solid var(--border-color);
+  background: white;
 }
 
 .comparison-table {
   width: 100%;
-  border-collapse: collapse;
-  background-color: white;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
+  border-collapse: separate; /* 允许圆角 */
+  border-spacing: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.95rem; /* 稍微大一点，看清字 */
 }
 
-/* 表头样式 */
+/* --- 表头设计：深色背景，白字，高对比度 --- */
 .comparison-table thead th {
-  background-color: #f8fafc;
-  color: var(--text-primary);
-  font-weight: 700;
+  background-color: #1e293b; /* 深蓝灰色背景 */
+  color: #ffffff;            /* 白色文字 */
+  font-weight: 600;
   text-align: center;
-  padding: 1rem 0.5rem;
-  border-bottom: 2px solid var(--border-color);
-  vertical-align: bottom; /* 文字底部对齐 */
-  line-height: 1.2;
+  padding: 1.2rem 0.8rem;    /* 增加高度，不挤 */
+  letter-spacing: 0.02em;    /* 字间距微调 */
+  border-bottom: 3px solid var(--primary-color); /* 底部加一条亮线 */
+  line-height: 1.4;
+  vertical-align: middle;
 }
 
-/* 第一列（方法名）靠左对齐 */
-.comparison-table th.method-col,
+/* 第一列（Method）表头特殊处理 */
+.comparison-table thead th.method-col {
+  text-align: left;
+  padding-left: 2rem;
+  border-top-left-radius: 12px; /* 左上圆角 */
+}
+
+/* 最后一列圆角 */
+.comparison-table thead th:last-child {
+  border-top-right-radius: 12px;
+}
+
+/* --- 内容行设计 --- */
+.comparison-table td {
+  padding: 1rem 0.8rem; /* 这里的 padding 决定了行高，大一点才舒服 */
+  text-align: center;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: middle;
+  color: #64748b; /* 普通图标/文字用灰色，不抢眼 */
+  transition: background-color 0.2s;
+}
+
+/* 第一列（方法名）：加粗，深色 */
 .comparison-table td.method-name {
   text-align: left;
-  padding-left: 1.5rem;
-  min-width: 160px; /* 防止方法名换行太难看 */
-}
-
-/* 单元格通用样式 */
-.comparison-table td {
-  padding: 0.8rem 0.5rem;
-  text-align: center;
-  border-bottom: 1px solid #f1f5f9;
-  vertical-align: middle;
-  color: var(--text-secondary);
-}
-
-/* 图标颜色 */
-.icon-check {
-  color: #10b981; /* 翠绿色 */
-  font-size: 1.1rem;
-}
-
-.icon-cross {
-  color: #ef4444; /* 红色 */
-  opacity: 0.3;   /* 降低透明度，让原本的X不那么刺眼，突出Check */
+  padding-left: 2rem;
+  font-weight: 700;
+  color: #0f172a; /* 深黑色，突出方法名 */
   font-size: 1rem;
 }
 
-/* --- 高亮 "Ours" 这一行 --- */
-.comparison-table tr.ours-row {
-  background-color: rgba(37, 99, 235, 0.06) !important; /* 你的主题蓝色的极淡版本 */
-  border-top: 1px solid rgba(37, 99, 235, 0.2);
-  border-bottom: 1px solid rgba(37, 99, 235, 0.2);
-}
-
-.comparison-table tr.ours-row td {
-  color: var(--primary-color);
-  font-weight: 600;
-  border-bottom: none;
-}
-
-/* 鼠标悬停效果 */
-.comparison-table tbody tr:hover:not(.ours-row) {
+/* --- 斑马纹：隔行变色 --- */
+/* 让偶数行变成极淡的灰色，区分行与行 */
+.comparison-table tbody tr:nth-child(even) {
   background-color: #f8fafc;
+}
+
+/* Hover 效果：鼠标划过变亮 */
+.comparison-table tbody tr:hover {
+  background-color: #f1f5f9;
+}
+
+/* --- OURS 行：重点高亮 --- */
+.comparison-table tr.ours-row {
+  background-color: #eff6ff !important; /* 浅蓝色背景 */
+  position: relative;
+  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1); /* 微微浮起 */
+  z-index: 1;
+}
+
+/* Ours 行的第一列 */
+.comparison-table tr.ours-row td.method-name {
+  color: #2563eb; /* 品牌蓝 */
+  font-size: 1.1rem; /* 字号加大 */
+  position: relative;
+}
+
+/* 给 Ours 左边加一条明显的蓝线 */
+.comparison-table tr.ours-row td:first-child {
+  border-left: 4px solid #2563eb;
+}
+
+/* Ours 行内的图标颜色 */
+.comparison-table tr.ours-row .icon-check {
+  color: #2563eb; /* 对勾也变成蓝色 */
+  filter: drop-shadow(0 2px 4px rgba(37, 99, 235, 0.2)); /* 图标发光 */
+}
+
+/* 图标基础样式 */
+.icon-check {
+  color: #10b981; /* 绿色 */
+  font-size: 1.2rem;
+}
+
+.icon-cross {
+  color: #cbd5e1; /* 浅灰色叉号，极大降低视觉干扰 */
+  font-size: 1rem;
+}
+
+/* 备注文字样式 */
+.content.is-size-7 {
+  margin-top: 1rem;
+  color: #94a3b8; /* 浅灰 */
+  padding: 0 1rem;
+  line-height: 1.6;
+  border-left: 3px solid #cbd5e1; /* 左侧装饰线 */
 }
 
 
