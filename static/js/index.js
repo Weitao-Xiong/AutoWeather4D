@@ -285,13 +285,52 @@ $(document).ready(function() {
     setupVideoCarouselAutoplay();
 
     initAbstractVideoGallery();
-    initProgressiveVideoShowcase('snow');
-    initProgressiveVideoShowcase('rain');
+    
+    // Lazy load progressive video showcases when they come into view
+    setupProgressiveVideoLazyLoad();
     
     // Ensure all progressive videos loop properly
     ensureProgressiveVideosLoop();
 
 })
+
+// Lazy load progressive video showcases
+function setupProgressiveVideoLazyLoad() {
+    const snowSection = document.querySelector('.progressive-timeline-container[data-showcase-type="snow"]')?.closest('section');
+    const rainSection = document.querySelector('.progressive-timeline-container[data-showcase-type="rain"]')?.closest('section');
+    
+    const observerOptions = {
+        root: null,
+        rootMargin: '300px', // Start loading 300px before entering viewport
+        threshold: 0.01
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const section = entry.target;
+                const showcaseType = section.querySelector('[data-showcase-type="snow"]') ? 'snow' : 'rain';
+                
+                // Load the initial video when section comes into view
+                const layer1Id = showcaseType === 'rain' ? 'rain-video-layer-1' : 'progressive-video-layer-1';
+                const video = document.getElementById(layer1Id);
+                if (video && video.preload === 'none') {
+                    video.preload = 'auto';
+                    video.load();
+                }
+                
+                // Initialize the showcase when it comes into view
+                initProgressiveVideoShowcase(showcaseType);
+                
+                // Unobserve after initialization
+                observer.unobserve(section);
+            }
+        });
+    }, observerOptions);
+    
+    if (snowSection) observer.observe(snowSection);
+    if (rainSection) observer.observe(rainSection);
+}
 
 // Ensure all progressive showcase videos loop properly
 function ensureProgressiveVideosLoop() {
