@@ -286,50 +286,47 @@ $(document).ready(function() {
 
     initAbstractVideoGallery();
     
-    // Lazy load progressive video showcases when they come into view
-    setupProgressiveVideoLazyLoad();
+    // Initialize progressive video showcases immediately for faster loading
+    initProgressiveVideoShowcase('snow');
+    initProgressiveVideoShowcase('rain');
+    
+    // Preload all video sources for faster switching
+    preloadProgressiveVideos();
     
     // Ensure all progressive videos loop properly
     ensureProgressiveVideosLoop();
 
 })
 
-// Lazy load progressive video showcases
-function setupProgressiveVideoLazyLoad() {
-    const snowSection = document.querySelector('.progressive-timeline-container[data-showcase-type="snow"]')?.closest('section');
-    const rainSection = document.querySelector('.progressive-timeline-container[data-showcase-type="rain"]')?.closest('section');
+// Preload all progressive video sources for faster switching
+function preloadProgressiveVideos() {
+    // Snow videos
+    const snowVideos = [
+        'static/videos/snow_114.mov',
+        'static/videos/snow_114_add_falling.mov',
+        'static/videos/snow_114_falling_acc.mov',
+        'static/videos/snow_114_falling_acc_ground.mov'
+    ];
     
-    const observerOptions = {
-        root: null,
-        rootMargin: '300px', // Start loading 300px before entering viewport
-        threshold: 0.01
-    };
+    // Rain videos
+    const rainVideos = [
+        'static/videos/raw_video_220.mov',
+        'static/videos/add_raindrops_220.mov',
+        'static/videos/add_raindrops_plus_puddle_220.mov'
+    ];
     
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const section = entry.target;
-                const showcaseType = section.querySelector('[data-showcase-type="snow"]') ? 'snow' : 'rain';
-                
-                // Load the initial video when section comes into view
-                const layer1Id = showcaseType === 'rain' ? 'rain-video-layer-1' : 'progressive-video-layer-1';
-                const video = document.getElementById(layer1Id);
-                if (video && video.preload === 'none') {
-                    video.preload = 'auto';
-                    video.load();
-                }
-                
-                // Initialize the showcase when it comes into view
-                initProgressiveVideoShowcase(showcaseType);
-                
-                // Unobserve after initialization
-                observer.unobserve(section);
-            }
-        });
-    }, observerOptions);
+    // Create hidden video elements to preload
+    const preloadContainer = document.createElement('div');
+    preloadContainer.style.display = 'none';
+    document.body.appendChild(preloadContainer);
     
-    if (snowSection) observer.observe(snowSection);
-    if (rainSection) observer.observe(rainSection);
+    [...snowVideos, ...rainVideos].forEach(src => {
+        const video = document.createElement('video');
+        video.src = src;
+        video.preload = 'auto';
+        video.muted = true;
+        preloadContainer.appendChild(video);
+    });
 }
 
 // Ensure all progressive showcase videos loop properly
@@ -463,9 +460,26 @@ function updateProgressiveVideo(newSrc, newLabel, type) {
 
     // Prepare next layer
     let nextVideo = activeVideo === layer1 ? layer2 : layer1;
-    nextVideo.src = newSrc;
-    nextVideo.load();
-
+    
+    // If video source is already set and loaded, use it directly
+    if (nextVideo.src && nextVideo.src.includes(newSrc) && nextVideo.readyState >= 3) {
+        // Video is already loaded, just switch immediately
+        nextVideo.currentTime = currentTime;
+        nextVideo.classList.add('active-layer');
+        nextVideo.classList.remove('hidden-layer');
+        activeVideo.classList.remove('active-layer');
+        activeVideo.classList.add('hidden-layer');
+        if (loader) loader.classList.remove('show');
+        setTimeout(() => { activeVideo.pause(); }, 600);
+        
+        const playPromise = nextVideo.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => console.warn("Auto-play prevented:", error));
+        }
+        return;
+    }
+    
+    // Define switch function
     const performSwitch = () => {
         // Set the same playback time before switching
         nextVideo.currentTime = currentTime;
@@ -486,6 +500,10 @@ function updateProgressiveVideo(newSrc, newLabel, type) {
             activeVideo.pause();
         }, 600);
     };
+    
+    nextVideo.src = newSrc;
+    nextVideo.preload = 'auto';
+    nextVideo.load();
 
     nextVideo.onloadeddata = () => {
         // Set the playback time to match current video
