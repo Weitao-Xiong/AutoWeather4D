@@ -285,5 +285,129 @@ $(document).ready(function() {
     setupVideoCarouselAutoplay();
 
     initAbstractVideoGallery();
+    initProgressiveVideoShowcase();
 
 })
+
+// =========================================
+// Progressive Snow Effect Showcase
+// =========================================
+
+function initProgressiveVideoShowcase() {
+    const steps = document.querySelectorAll('.progressive-step');
+    const progressBar = document.getElementById('progressiveTimelineProgress');
+    
+    if (steps.length === 0) return;
+
+    let currentStep = 0;
+
+    steps.forEach((step, index) => {
+        step.addEventListener('click', () => {
+            switchToStep(index);
+        });
+
+        step.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                switchToStep(index);
+            }
+        });
+    });
+
+    function switchToStep(index) {
+        if (index < 0 || index >= steps.length) return;
+        
+        const step = steps[index];
+        const videoSrc = step.getAttribute('data-video-src');
+        const videoLabel = step.getAttribute('data-video-label');
+
+        if (!videoSrc) return;
+
+        // Update active state
+        steps.forEach((s, i) => {
+            s.classList.toggle('is-active', i === index);
+        });
+
+        // Update progress bar
+        if (progressBar) {
+            const progress = ((index + 1) / steps.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Switch video
+        updateProgressiveVideo(videoSrc, videoLabel);
+        currentStep = index;
+    }
+
+    // Initialize first step
+    switchToStep(0);
+}
+
+function updateProgressiveVideo(newSrc, newLabel) {
+    const layer1 = document.getElementById('progressive-video-layer-1');
+    const layer2 = document.getElementById('progressive-video-layer-2');
+    const caption = document.getElementById('progressiveVideoCaption');
+    const loader = document.querySelector('.progressive-video-loader');
+
+    if (!layer1 || !layer2) return;
+
+    // Check if already playing this video
+    let activeVideo = layer1.classList.contains('active-layer') ? layer1 : layer2;
+    if (activeVideo.getAttribute('src') && activeVideo.src.includes(newSrc)) {
+        return;
+    }
+
+    // Update caption
+    if (caption && newLabel) {
+        const icon = caption.querySelector('i');
+        caption.innerHTML = icon ? `<i class="${icon.className}"></i> ${newLabel}` : `<i class="fas fa-video"></i> ${newLabel}`;
+    }
+
+    // Show loader
+    if (loader) {
+        loader.classList.add('show');
+    }
+
+    // Prepare next layer
+    let nextVideo = activeVideo === layer1 ? layer2 : layer1;
+    nextVideo.src = newSrc;
+    nextVideo.load();
+
+    const performSwitch = () => {
+        nextVideo.classList.add('active-layer');
+        nextVideo.classList.remove('hidden-layer');
+        
+        activeVideo.classList.remove('active-layer');
+        activeVideo.classList.add('hidden-layer');
+        
+        // Hide loader
+        if (loader) {
+            loader.classList.remove('show');
+        }
+        
+        // Pause old video after transition
+        setTimeout(() => {
+            activeVideo.pause();
+            activeVideo.currentTime = 0;
+        }, 600);
+    };
+
+    nextVideo.onloadeddata = () => {
+        const playPromise = nextVideo.play();
+
+        if (playPromise !== undefined) {
+            playPromise
+                .then(() => {
+                    performSwitch();
+                })
+                .catch(error => {
+                    console.warn("Auto-play prevented, switching anyway:", error);
+                    performSwitch();
+                });
+        } else {
+            performSwitch();
+        }
+        
+        nextVideo.onloadeddata = null;
+    };
+}

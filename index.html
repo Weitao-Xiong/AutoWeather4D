@@ -496,6 +496,91 @@
 </section>
 <!-- End Pipeline and Methodology -->
 
+<!-- Progressive Snow Effect Showcase -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Progressive Snow Effect Showcase</h2>
+        <p class="subtitle is-6 has-text-grey" style="margin-bottom: 2rem;">
+          Explore how our method progressively adds snow effects: from original video to complete snow accumulation
+        </p>
+      </div>
+    </div>
+
+    <!-- Main Video Display -->
+    <div class="progressive-video-wrapper">
+      <div class="progressive-main-video-container">
+        <video id="progressive-video-layer-1" class="progressive-main-video active-layer" src="static/videos/snow_114.mov" autoplay muted loop playsinline></video>
+        <video id="progressive-video-layer-2" class="progressive-main-video hidden-layer" src="" muted loop playsinline></video>
+        <div class="progressive-video-loader"></div>
+      </div>
+      <p id="progressiveVideoCaption" class="progressive-main-video-caption">
+        <i class="fas fa-video"></i> Original Video
+      </p>
+    </div>
+
+    <!-- Progressive Timeline Control -->
+    <div class="progressive-timeline-container">
+      <div class="progressive-timeline-track">
+        <div class="progressive-timeline-progress" id="progressiveTimelineProgress"></div>
+        <div class="progressive-timeline-steps">
+          <button class="progressive-step is-active" data-step="0" data-video-src="static/videos/snow_114.mov" data-video-label="Original Video" aria-label="Original Video">
+            <div class="step-marker">
+              <i class="fas fa-circle"></i>
+            </div>
+            <div class="step-label">
+              <span class="step-title">Original</span>
+              <span class="step-desc">Base video</span>
+            </div>
+          </button>
+
+          <button class="progressive-step" data-step="1" data-video-src="static/videos/snow_114_add_falling.mov" data-video-label="Falling Snow Only" aria-label="Falling Snow Only">
+            <div class="step-marker">
+              <i class="fas fa-snowflake"></i>
+            </div>
+            <div class="step-label">
+              <span class="step-title">Falling Snow</span>
+              <span class="step-desc">Sky only</span>
+            </div>
+          </button>
+
+          <button class="progressive-step" data-step="2" data-video-src="static/videos/snow_114_falling_acc.mov" data-video-label="Falling + Accumulation (No Ground)" aria-label="Falling + Accumulation (No Ground)">
+            <div class="step-marker">
+              <i class="fas fa-layer-group"></i>
+            </div>
+            <div class="step-label">
+              <span class="step-title">Partial Acc.</span>
+              <span class="step-desc">Roofs, cars, trees</span>
+            </div>
+          </button>
+
+          <button class="progressive-step" data-step="3" data-video-src="static/videos/snow_114_falling_acc_ground.mov" data-video-label="Complete Snow Effect" aria-label="Complete Snow Effect">
+            <div class="step-marker">
+              <i class="fas fa-mountain"></i>
+            </div>
+            <div class="step-label">
+              <span class="step-title">Full Effect</span>
+              <span class="step-desc">Including ground</span>
+            </div>
+          </button>
+
+          <button class="progressive-step" data-step="4" data-video-src="static/videos/snow_114_ablation_video.mp4" data-video-label="Ablation Study" aria-label="Ablation Study">
+            <div class="step-marker">
+              <i class="fas fa-film"></i>
+            </div>
+            <div class="step-label">
+              <span class="step-title">Ablation</span>
+              <span class="step-desc">Comparison mix</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Progressive Snow Effect Showcase -->
+
 <!-- Comparison Table -->
 <section class="section">
   <div class="container is-max-desktop">
@@ -721,8 +806,8 @@
       <pre id="bibtex-code"><code>@article{AutoWeather4D2024,
     title={AutoWeather4D: Autonomous Driving Video Weather Conversion via G-Buffer Dual-Pass Editing},
     author={Liu, Tianyu* and Xiong, Weitao* and Luo, Kunming and Zhang, Manyuan and Li, Peng and Liu, Yuan and Tan, Ping},
-    journal={Conference/Journal Name},
-    year={2024},
+  journal={Conference/Journal Name},
+  year={2024},
     note={*Equal Contribution},
     url={https://weitao-xiong.github.io/AutoWeather4D/}
 }</code></pre>
@@ -756,4 +841,4 @@
     <!-- End of Statcounter Code -->
 
   </body>
-</html>
+  </html>
