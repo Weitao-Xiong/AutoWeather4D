@@ -1494,6 +1494,39 @@ a:focus {
   opacity: 1;
 }
 
+/* Eye icon styles */
+.step-eye-icon {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.eye-icon {
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+/* Eye icon states - controlled by JavaScript */
+.step-eye-icon .eye-on {
+  display: none !important;
+}
+
+.step-eye-icon .eye-off {
+  display: block !important;
+}
+
+.step-eye-icon.eye-open .eye-on {
+  display: block !important;
+}
+
+.step-eye-icon.eye-open .eye-off {
+  display: none !important;
+}
+
 /* 连接线效果 */
 .progressive-step::before {
   content: '';

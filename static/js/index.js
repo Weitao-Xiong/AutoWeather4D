@@ -414,6 +414,28 @@ function initProgressiveVideoShowcase(type) {
         // Update active state (only for this showcase's steps)
         steps.forEach((s, i) => {
             s.classList.toggle('is-active', i === index);
+            
+            // Update eye icon state:
+            // - Original (index 0) only opens when it's selected
+            // - Other steps: from step 1 to current index have open eyes (cumulative effect)
+            const eyeIcon = s.querySelector('.step-eye-icon');
+            if (eyeIcon) {
+                if (i === 0) {
+                    // Original: only open when selected (index === 0)
+                    if (index === 0) {
+                        eyeIcon.classList.add('eye-open');
+                    } else {
+                        eyeIcon.classList.remove('eye-open');
+                    }
+                } else {
+                    // Other steps: open from step 1 to current index
+                    if (i <= index && index > 0) {
+                        eyeIcon.classList.add('eye-open');
+                    } else {
+                        eyeIcon.classList.remove('eye-open');
+                    }
+                }
+            }
         });
 
         // Update progress bar
@@ -427,8 +449,16 @@ function initProgressiveVideoShowcase(type) {
         currentStep = index;
     }
 
-    // Initialize first step
+    // Initialize first step (this will also set the eye icon for the first step)
     switchToStep(0, type);
+    
+    // Ensure first step's eye is open on initialization
+    if (steps.length > 0) {
+        const firstEyeIcon = steps[0].querySelector('.step-eye-icon');
+        if (firstEyeIcon) {
+            firstEyeIcon.classList.add('eye-open');
+        }
+    }
 }
 
 function updateProgressiveVideo(newSrc, newLabel, type) {
