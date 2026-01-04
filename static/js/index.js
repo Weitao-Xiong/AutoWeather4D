@@ -303,16 +303,33 @@ function initProgressiveVideoShowcase() {
 
     steps.forEach((step, index) => {
         step.addEventListener('click', () => {
-            switchToStep(index);
+            toggleStep(index);
         });
 
         step.addEventListener('keydown', (event) => {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
-                switchToStep(index);
+                toggleStep(index);
             }
         });
     });
+
+    function toggleStep(index) {
+        if (index < 0 || index >= steps.length) return;
+        
+        const step = steps[index];
+        const isCurrentlyActive = step.classList.contains('is-active');
+        
+        // If clicking the active step, deactivate it and go back to previous (or first)
+        if (isCurrentlyActive) {
+            // Find the previous active step (or go to first if current is first)
+            let targetIndex = index > 0 ? index - 1 : 0;
+            switchToStep(targetIndex);
+        } else {
+            // Normal switch to clicked step
+            switchToStep(index);
+        }
+    }
 
     function switchToStep(index) {
         if (index < 0 || index >= steps.length) return;
@@ -357,6 +374,9 @@ function updateProgressiveVideo(newSrc, newLabel) {
         return;
     }
 
+    // Save current playback time to sync with next video
+    const currentTime = activeVideo.currentTime;
+
     // Update caption
     if (caption && newLabel) {
         const icon = caption.querySelector('i');
@@ -374,6 +394,9 @@ function updateProgressiveVideo(newSrc, newLabel) {
     nextVideo.load();
 
     const performSwitch = () => {
+        // Set the same playback time before switching
+        nextVideo.currentTime = currentTime;
+        
         nextVideo.classList.add('active-layer');
         nextVideo.classList.remove('hidden-layer');
         
@@ -385,14 +408,16 @@ function updateProgressiveVideo(newSrc, newLabel) {
             loader.classList.remove('show');
         }
         
-        // Pause old video after transition
+        // Pause old video after transition (but keep its time for potential future use)
         setTimeout(() => {
             activeVideo.pause();
-            activeVideo.currentTime = 0;
         }, 600);
     };
 
     nextVideo.onloadeddata = () => {
+        // Set the playback time to match current video
+        nextVideo.currentTime = currentTime;
+        
         const playPromise = nextVideo.play();
 
         if (playPromise !== undefined) {
