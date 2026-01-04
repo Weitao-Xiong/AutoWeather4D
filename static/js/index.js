@@ -285,17 +285,52 @@ $(document).ready(function() {
     setupVideoCarouselAutoplay();
 
     initAbstractVideoGallery();
-    initProgressiveVideoShowcase();
+    initProgressiveVideoShowcase('snow');
+    initProgressiveVideoShowcase('rain');
+    
+    // Ensure all progressive videos loop properly
+    ensureProgressiveVideosLoop();
 
 })
 
+// Ensure all progressive showcase videos loop properly
+function ensureProgressiveVideosLoop() {
+    const videoIds = [
+        'progressive-video-layer-1',
+        'progressive-video-layer-2',
+        'rain-video-layer-1',
+        'rain-video-layer-2'
+    ];
+    
+    videoIds.forEach(id => {
+        const video = document.getElementById(id);
+        if (video) {
+            video.loop = true;
+            // Use timeupdate for seamless looping
+            const handleTimeUpdate = () => {
+                // If video is very close to the end (within 0.05 seconds), reset to start for seamless loop
+                if (video.duration && video.currentTime >= video.duration - 0.05) {
+                    video.currentTime = 0.01; // Set to small value to avoid exact 0 which might cause issues
+                }
+            };
+            video.addEventListener('timeupdate', handleTimeUpdate);
+        }
+    });
+}
+
 // =========================================
-// Progressive Snow Effect Showcase
+// Progressive Effect Showcase (Snow/Rain)
 // =========================================
 
-function initProgressiveVideoShowcase() {
-    const steps = document.querySelectorAll('.progressive-step');
-    const progressBar = document.getElementById('progressiveTimelineProgress');
+function initProgressiveVideoShowcase(type) {
+    // Find the container for this showcase type using data attribute
+    const container = document.querySelector(`.progressive-timeline-container[data-showcase-type="${type}"]`);
+    
+    if (!container) return;
+    
+    const steps = container.querySelectorAll('.progressive-step');
+    const progressBarId = type === 'rain' ? 'rainTimelineProgress' : 'progressiveTimelineProgress';
+    const progressBar = document.getElementById(progressBarId);
     
     if (steps.length === 0) return;
 
@@ -303,18 +338,18 @@ function initProgressiveVideoShowcase() {
 
     steps.forEach((step, index) => {
         step.addEventListener('click', () => {
-            toggleStep(index);
+            toggleStep(index, type);
         });
 
         step.addEventListener('keydown', (event) => {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
-                toggleStep(index);
+                toggleStep(index, type);
             }
         });
     });
 
-    function toggleStep(index) {
+    function toggleStep(index, showcaseType) {
         if (index < 0 || index >= steps.length) return;
         
         const step = steps[index];
@@ -324,14 +359,14 @@ function initProgressiveVideoShowcase() {
         if (isCurrentlyActive) {
             // Find the previous active step (or go to first if current is first)
             let targetIndex = index > 0 ? index - 1 : 0;
-            switchToStep(targetIndex);
+            switchToStep(targetIndex, showcaseType);
         } else {
             // Normal switch to clicked step
-            switchToStep(index);
+            switchToStep(index, showcaseType);
         }
     }
 
-    function switchToStep(index) {
+    function switchToStep(index, showcaseType) {
         if (index < 0 || index >= steps.length) return;
         
         const step = steps[index];
@@ -340,7 +375,7 @@ function initProgressiveVideoShowcase() {
 
         if (!videoSrc) return;
 
-        // Update active state
+        // Update active state (only for this showcase's steps)
         steps.forEach((s, i) => {
             s.classList.toggle('is-active', i === index);
         });
@@ -352,19 +387,24 @@ function initProgressiveVideoShowcase() {
         }
 
         // Switch video
-        updateProgressiveVideo(videoSrc, videoLabel);
+        updateProgressiveVideo(videoSrc, videoLabel, showcaseType);
         currentStep = index;
     }
 
     // Initialize first step
-    switchToStep(0);
+    switchToStep(0, type);
 }
 
-function updateProgressiveVideo(newSrc, newLabel) {
-    const layer1 = document.getElementById('progressive-video-layer-1');
-    const layer2 = document.getElementById('progressive-video-layer-2');
-    const caption = document.getElementById('progressiveVideoCaption');
-    const loader = document.querySelector('.progressive-video-loader');
+function updateProgressiveVideo(newSrc, newLabel, type) {
+    const layer1Id = type === 'rain' ? 'rain-video-layer-1' : 'progressive-video-layer-1';
+    const layer2Id = type === 'rain' ? 'rain-video-layer-2' : 'progressive-video-layer-2';
+    
+    const layer1 = document.getElementById(layer1Id);
+    const layer2 = document.getElementById(layer2Id);
+    
+    // Find the loader within the same showcase container
+    const container = layer1 ? layer1.closest('.progressive-video-wrapper') : null;
+    const loader = container ? container.querySelector('.progressive-video-loader') : null;
 
     if (!layer1 || !layer2) return;
 
@@ -376,12 +416,6 @@ function updateProgressiveVideo(newSrc, newLabel) {
 
     // Save current playback time to sync with next video
     const currentTime = activeVideo.currentTime;
-
-    // Update caption
-    if (caption && newLabel) {
-        const icon = caption.querySelector('i');
-        caption.innerHTML = icon ? `<i class="${icon.className}"></i> ${newLabel}` : `<i class="fas fa-video"></i> ${newLabel}`;
-    }
 
     // Show loader
     if (loader) {
@@ -417,6 +451,21 @@ function updateProgressiveVideo(newSrc, newLabel) {
     nextVideo.onloadeddata = () => {
         // Set the playback time to match current video
         nextVideo.currentTime = currentTime;
+        
+        // Ensure loop is enabled
+        nextVideo.loop = true;
+        
+        // Use timeupdate to detect near end and loop seamlessly
+        const handleTimeUpdate = () => {
+            // If video is very close to the end (within 0.05 seconds), reset to start for seamless loop
+            if (nextVideo.duration && nextVideo.currentTime >= nextVideo.duration - 0.05) {
+                nextVideo.currentTime = 0.01; // Set to small value to avoid exact 0 which might cause issues
+            }
+        };
+        
+        // Remove old listener if exists
+        nextVideo.removeEventListener('timeupdate', handleTimeUpdate);
+        nextVideo.addEventListener('timeupdate', handleTimeUpdate);
         
         const playPromise = nextVideo.play();
 

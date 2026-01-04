@@ -521,7 +521,7 @@
     </div>
 
     <!-- Progressive Timeline Control -->
-    <div class="progressive-timeline-container">
+    <div class="progressive-timeline-container" data-showcase-type="snow">
       <div class="progressive-timeline-track">
         <div class="progressive-timeline-progress" id="progressiveTimelineProgress"></div>
         <div class="progressive-timeline-steps">
@@ -570,6 +570,71 @@
   </div>
 </section>
 <!-- End Progressive Snow Effect Showcase -->
+
+<!-- Progressive Rain Effect Showcase -->
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Progressive Rain Effect Showcase</h2>
+        <p class="subtitle is-6 has-text-grey" style="margin-bottom: 2rem;">
+          Explore how our method progressively adds rain effects: from original video to complete rain with puddles
+        </p>
+      </div>
+    </div>
+
+    <!-- Main Video Display -->
+    <div class="progressive-video-wrapper">
+      <div class="progressive-main-video-container">
+        <video id="rain-video-layer-1" class="progressive-main-video active-layer" src="static/videos/raw_video_220.mov" autoplay muted loop playsinline></video>
+        <video id="rain-video-layer-2" class="progressive-main-video hidden-layer" src="" muted loop playsinline></video>
+        <div class="progressive-video-loader"></div>
+      </div>
+      <p id="rainVideoCaption" class="progressive-main-video-caption">
+        <i class="fas fa-video"></i> Original Video
+      </p>
+    </div>
+
+    <!-- Progressive Timeline Control -->
+    <div class="progressive-timeline-container" data-showcase-type="rain">
+      <div class="progressive-timeline-track">
+        <div class="progressive-timeline-progress" id="rainTimelineProgress"></div>
+        <div class="progressive-timeline-steps">
+          <button class="progressive-step rain-step is-active" data-step="0" data-video-src="static/videos/raw_video_220.mov" data-video-label="Original Video" aria-label="Original Video">
+            <div class="step-marker">
+              <i class="fas fa-circle"></i>
+            </div>
+            <div class="step-label">
+              <span class="step-title">Original</span>
+              <span class="step-desc">Base video</span>
+            </div>
+          </button>
+
+          <button class="progressive-step rain-step" data-step="1" data-video-src="static/videos/add_raindrops_220.mov" data-video-label="Falling Rain Only" aria-label="Falling Rain Only">
+            <div class="step-marker">
+              <i class="fas fa-cloud-rain"></i>
+            </div>
+            <div class="step-label">
+              <span class="step-title">Falling Rain</span>
+              <span class="step-desc">Raindrops only</span>
+            </div>
+          </button>
+
+          <button class="progressive-step rain-step" data-step="2" data-video-src="static/videos/add_raindrops_plus_puddle_220.mov" data-video-label="Complete Rain Effect" aria-label="Complete Rain Effect">
+            <div class="step-marker">
+              <i class="fas fa-tint"></i>
+            </div>
+            <div class="step-label">
+              <span class="step-title">Full Effect</span>
+              <span class="step-desc">With puddles</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Progressive Rain Effect Showcase -->
 
 <!-- Comparison Table -->
 <section class="section">
