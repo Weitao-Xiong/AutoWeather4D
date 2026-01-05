@@ -416,17 +416,13 @@ function initProgressiveVideoShowcase(type) {
             s.classList.toggle('is-active', i === index);
             
             // Update eye icon state:
-            // - Original (index 0) only opens when it's selected
+            // - Original (index 0) always has open eye
             // - Other steps: from step 1 to current index have open eyes (cumulative effect)
             const eyeIcon = s.querySelector('.step-eye-icon');
             if (eyeIcon) {
                 if (i === 0) {
-                    // Original: only open when selected (index === 0)
-                    if (index === 0) {
-                        eyeIcon.classList.add('eye-open');
-                    } else {
-                        eyeIcon.classList.remove('eye-open');
-                    }
+                    // Original: always open
+                    eyeIcon.classList.add('eye-open');
                 } else {
                     // Other steps: open from step 1 to current index
                     if (i <= index && index > 0) {
